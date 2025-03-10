@@ -13,9 +13,9 @@ const descriptionInput = document.getElementById("description-input");
 const taskData = JSON.parse(localStorage.getItem("data")) || [];
 let currentTask = {};
 
-const removeSpecialChars = (str) => {
-  return str.replaceAll(/[^A-Za-z0-9\-\s]/g,"");
-  }
+const removeSpecialChars = (val) => {
+  return val.trim().replace(/[^A-Za-z0-9\-\s]/g, '')
+}
 
 const addOrUpdateTask = () => {
    if(!titleInput.value.trim()){
@@ -24,10 +24,10 @@ const addOrUpdateTask = () => {
   }
   const dataArrIndex = taskData.findIndex((item) => item.id === currentTask.id);
   const taskObj = {
-    id: `${titleInput.value.toLowerCase().split(" ").join("-")}-${Date.now()}`,
-    title: titleInput.value,
+    id: `${removeSpecialChars(titleInput.value).toLowerCase().split(" ").join("-")}-${Date.now()}`,
+    title: removeSpecialChars(titleInput.value),
     date: dateInput.value,
-    description: descriptionInput.value,
+    description: removeSpecialChars(descriptionInput.value),
   };
 
   if (dataArrIndex === -1) {
@@ -126,6 +126,3 @@ taskForm.addEventListener("submit", (e) => {
 
   addOrUpdateTask();
 });
-
-const some = removeSpecialChars("Hello there");
-console.log(some);
